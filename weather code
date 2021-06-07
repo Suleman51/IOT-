@@ -1,0 +1,42 @@
+
+
+#include "DHT.h"
+#include <ESP8266WiFi.h>
+#include <BlynkSimpleEsp8266.h>  v
+
+
+// Obtain the Auth code from the blynk application.
+// go to Settings.
+char auth[] = "Ef0ogpRXZYlTPSH5oJKqXgKho6ZUWOrD ";
+
+// put your WiFi deatails.
+
+char ssid[] = "Room.02.01";
+char pass[] = "5N4CPolSVo";
+
+DHT dhtA(5, DHT11);
+
+void setup() {
+  Blynk.begin(auth, ssid, pass);
+
+  dhtA.begin();
+
+}
+This calls the loop function 
+void loop() {
+
+  Blynk.run();
+  climateRoutine();
+
+  delay(500);
+}
+
+void climateRoutine() {
+
+  byte h1 = dhtA.readHumidity();
+  byte t1 = dhtA.readTemperature();
+
+  Blynk.virtualWrite(V0, t1); 
+
+  Blynk.virtualWrite(V1, h1);
+}
